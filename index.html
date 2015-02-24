@@ -69,7 +69,8 @@
 						<li>Talk about (good) software design</li>
 						<li class="fragment">Discuss some (almost) unique features of Haskell</li>
 						<li class="fragment">Light intro into Haskell and type-calsses</li>
-						<li class="fragment">See a simple app, once started in Adform, but now abandoned</li>
+						<li class="fragment">See reasons for a high level of integration between Haskell libs</li>
+						<li class="fragment">Run a simple app, once started in Adform, but now abandoned</li>
 					</ul>
 				</section>
 
@@ -157,118 +158,184 @@ public class B {
 				</section>
 
 				<section>
-					<h2>Tabular Tables</h2>
-					<table>
-						<thead>
-							<tr>
-								<th>Item</th>
-								<th>Value</th>
-								<th>Quantity</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>Apples</td>
-								<td>$1</td>
-								<td>7</td>
-							<tr>
-							<tr>
-								<td>Lemonade</td>
-								<td>$2</td>
-								<td>18</td>
-							<tr>
-							<tr>
-								<td>Bread</td>
-								<td>$3</td>
-								<td>2</td>
-							<tr>
-						</tbody>
-					</table>
+					<h2>OMG, Haskell code</h2>
+					<pre>
+						<code>
+data BannerSetup = BannerSetup {
+  bannerId :: BannerId
+  , clientDivId :: ClientDivId
+  , eshopId :: EshopId
+  , templateId :: TemplateId
+}
+						</code>
+					</pre>
 				</section>
 
 				<section>
-					<h2>Clever Quotes</h2>
-					<p>
-						These guys come in two forms, inline: <q cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
-						&ldquo;The nice thing about standards is that there are so many to choose from&rdquo;</q> and block:
-					</p>
-					<blockquote cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
-						&ldquo;For years there has been a theory that millions of monkeys typing at random on millions of typewriters would
-						reproduce the entire works of Shakespeare. The Internet has proven this theory to be untrue.&rdquo;
-					</blockquote>
+					<h2>Odd constructors</h2>
+					<pre>
+						<code>
+data BannerId = BannerId Integer
+data ClientDivId = ClientDivId Integer
+data EshopId = EshopId Integer
+data TemplateId = TemplateId Integer
+						</code>
+					</pre>
+				</section>
+				<section>
+					<h2>Haskell is simple</h2>
+					<pre>
+						<code>
+routes :: ScottyM ()
+routes = do
+  post "/" $ readBannerSetup >>= save >> raw "Ok"
+						</code>
+					</pre>
 				</section>
 
 				<section>
-					<h2>Intergalactic Interconnections</h2>
-					<p>
-						You can link between slides internally,
-						<a href="#/2/3">like this</a>.
-					</p>
+					<h2>Signature of jsonData</h2>
+					<pre>
+						<code>
+readBannerSetup :: ActionM BannerSetup
+readBannerSetup = jsonData
+						</code>
+					</pre>
+					API:
+					<pre>
+						<code>
+jsonData :: FromJSON a => ActionM a
+						</code>
+					</pre>
 				</section>
 
 				<section>
-					<h2>Speaker View</h2>
-					<p>There's a <a href="https://github.com/hakimel/reveal.js#speaker-notes">speaker view</a>. It includes a timer, preview of the upcoming slide as well as your speaker notes.</p>
-					<p>Press the <em>S</em> key to try it out.</p>
+					<h2>Implement FromJSON</h2>
+					<pre>
+						<code>
+instance FromJSON BannerSetup where
+  parseJSON (Object v) = do
+    b <- v .: "banner_id"
+    c <- v .: "client_division_id"
+    e <- v .: "eshop_id"
+    t <- v .: "template_id"
+    return $ BannerSetup (BannerId b) (ClientDivId c) (EshopId e) (TemplateId t)
+  parseJSON _ = mzero
+						</code>
+					</pre>
+				</section>
+				<section>
+					<h2>BannerSetup now is an instance of FromJSON</h2>
+					<pre>
+						<code>
+routes :: ScottyM ()
+routes = do
+  post "/" $ readBannerSetup >>= save >> raw "Ok"
 
-					<aside class="notes">
-						Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit 's' on your keyboard).
-					</aside>
+readBannerSetup :: ActionM BannerSetup
+readBannerSetup = jsonData
+						</code>
+					</pre>
+					API:
+					<pre>
+						<code>
+jsonData :: FromJSON a => ActionM a
+						</code>
+					</pre>
+				</section>
+				<section>
+					<h2>Ready to save?</h2>
+					<pre>
+						<code>
+save :: ToRow a => a -> ActionM ()
+save d = liftIO $ bracket getConnection close $ \conn -> void $
+  execute conn "insert into banners " ++
+  	"(banner_id, client_div_id, eshop_id, template_id)" ++
+  	"values (?, ?, ?, ?)" d						
+						</code>
+					</pre>
 				</section>
 
 				<section>
-					<h2>Export to PDF</h2>
-					<p>Presentations can be <a href="https://github.com/hakimel/reveal.js#pdf-export">exported to PDF</a>, here's an example:</p>
-					<iframe src="//www.slideshare.net/slideshow/embed_code/42840540" width="445" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:3px solid #666; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe>
+					<h2>Make BannerSetup a ToRow</h2>
+					<pre>
+						<code>
+instance ToRow BannerSetup where
+  toRow (BannerSetup (BannerId b) (ClientDivId c) (EshopId e) (TemplateId t)) =
+    toRow [toField b, toField c, toField e, toField t]
+						</code>
+					</pre>
 				</section>
 
 				<section>
-					<h2>Global State</h2>
-					<p>
-						Set <code>data-state="something"</code> on a slide and <code>"something"</code>
-						will be added as a class to the document element when the slide is open. This lets you
-						apply broader style changes, like switching the page background.
-					</p>
+					<h2>List them all!</h2>
+					<pre>
+						<code>
+routes :: ScottyM ()
+routes = do
+  post "/" $ readBannerSetup >>= save >> raw "Ok"
+  get "/" $ loadAllBanners >>= renderJson
+  						</code>
+					</pre>
 				</section>
-
-				<section data-state="customevent">
-					<h2>State Events</h2>
-					<p>
-						Additionally custom events can be triggered on a per slide basis by binding to the <code>data-state</code> name.
-					</p>
-					<pre><code class="javascript" data-trim contenteditable style="font-size: 18px;">
-Reveal.addEventListener( 'customevent', function() {
-	console.log( '"customevent" has fired' );
-} );
-					</code></pre>
-				</section>
-
 				<section>
-					<h2>Take a Moment</h2>
-					<p>
-						Press B or . on your keyboard to pause the presentation. This is helpful when you're on stage and want to take distracting slides off the screen.
-					</p>
+					<h2>Read from DB</h2>
+					<pre>
+						<code>
+loadAllBanners :: FromRow a => ActionM [a]
+loadAllBanners = liftIO $ bracket getConnection close $ \conn ->
+  query_ conn "select * from banners"
+						</code>
+					</pre>
+					<pre>
+						<code>
+instance FromRow BannerSetup where
+  fromRow = do
+    b <- field
+    c <- field
+    e <- field
+    t <- field
+    return $ BannerSetup (BannerId b) (ClientDivId c) (EshopId e) (TemplateId t)
+						</code>
+					</pre>
 				</section>
-
 				<section>
-					<h2>Much more</h2>
-					<ul>
-						<li>Right-to-left support</li>
-						<li><a href="https://github.com/hakimel/reveal.js#api">Extensive JavaScript API</a></li>
-						<li><a href="https://github.com/hakimel/reveal.js#auto-sliding">Auto-progression</a></li>
-						<li><a href="https://github.com/hakimel/reveal.js#parallax-background">Parallax backgrounds</a></li>
-						<li><a href="https://github.com/hakimel/reveal.js#keyboard-bindings">Custom keyboard bindings</a></li>
-					</ul>
+					<h2>ToJSON (with some magic)</h2>
+					<pre>
+						<code>
+renderJson :: [BannerSetup] -> ActionM ()
+renderJson = json
+  						</code>
+					</pre>
+					<pre>
+						<code>
+instance ToJSON BannerSetup where
+  toJSON (BannerSetup (BannerId b) (ClientDivId c) (EshopId e) (TemplateId t)) =
+    object [
+        "banner_id" .= b, "client_division_id" .= c,
+        "eshop_id" .= e, "template_id" .= t
+      ]
+  		</code>
+					</pre>					
 				</section>
+				<section>
+					<h2>Some stats</h2>
+					<pre>
+➜  dco-bannerz git:(master) cloc src
+       4 text files.
+       4 unique files.                              
+       0 files ignored.
 
-				<section style="text-align: left;">
-					<h1>THE END</h1>
-					<p>
-						- <a href="http://slides.com">Try the online editor</a> <br>
-						- <a href="https://github.com/hakimel/reveal.js">Source code &amp; documentation</a>
-					</p>
+http://cloc.sourceforge.net v 1.60  T=0.02 s (259.6 files/s, 6814.6 lines/s)
+-------------------------------------------------------------------------------
+Language                     files          blank        comment           code
+-------------------------------------------------------------------------------
+Haskell                          4             21              0             84
+-------------------------------------------------------------------------------
+SUM:                             4             21              0             84
+-------------------------------------------------------------------------------
+					</pre>
 				</section>
-
 			</div>
 
 		</div>
