@@ -319,6 +319,47 @@ instance ToJSON BannerSetup where
 					</pre>					
 				</section>
 				<section>
+					<h2>But we did not implement ToJSON [a]</h2>
+					<pre>
+						<code>
+ToJSON Bool	 
+ToJSON Char	 
+ToJSON Double	 
+ToJSON Float	 
+ToJSON Int
+-- skip some	 
+ToJSON Value	 
+ToJSON DotNetTime	 
+ToJSON [Char]	 
+ToJSON a => ToJSON [a]	 
+ToJSON (Ratio Integer)	 
+ToJSON a => ToJSON (Maybe a)
+-- skip many
+						</code>
+					</pre>
+				</section>
+				<section>
+					<h2>Can I do it in my PL?</h2>
+					<p>Yes, you can. Use:</p>
+					<ul>
+						<li class="fragment">Scala implicits</li>
+						<li class="fragment">Rust traits</li>
+						<li class="fragment">..?</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Scala example</h2>
+					<pre>
+						<code>
+
+						</code>
+					</pre>
+				</section>
+				<section>
+					<h2>Rust example</h2>
+					<h3 class="fragment">No way, Rust is not a FPL :)</h3>
+				</section>
+				<section>
 					<h2>Some stats</h2>
 					<pre>
 ➜  dco-bannerz git:(master) cloc src
