@@ -58,24 +58,27 @@
 					<ul>
 						<li>Immutable data structures</li>
 						<li>Concurrency and parallelism</li>
-						<li>NoSQL</li>
-						<li>HA</li>
+						<li class="fragment">... other FP mantras
 					</ul>
 				</section>
 
 				<section>
 					<h2>We will:</h2>
 					<ul>
-						<li>Talk about (good) software design</li>
+						<li>Talk about (good) software design (any PL)</li>
 						<li class="fragment">Discuss some (almost) unique features of Haskell</li>
-						<li class="fragment">Light intro into Haskell and type-calsses</li>
+						<li class="fragment">Light intro into Haskell and type-classes</li>
 						<li class="fragment">See reasons for a high level of integration between Haskell libs</li>
-						<li class="fragment">Run a simple app, once started in Adform, but now abandoned</li>
+						<li class="fragment">Run a simple app, once started in Adform, but now abandoned (1:1:1)</li>
 					</ul>
 				</section>
 
 				<section>
-					<h2>Any API + storage app:</h2>
+					<h1>Part I</h1>
+				</section>
+
+				<section>
+					<h2>Any API + business logics + storage app:</h2>
 					<ol>
 						<li>Active Record</li>
 						<li class="fragment">A la DDD (persistence is a plugin)</li>
@@ -103,12 +106,7 @@ public class A {
 				</section>
 
 				<section>
-					<h2>Advanced design</h2>
-					<img src="advanced.svg" width="800" height="500">
-				</section>
-
-				<section>
-					<h2>Interface</h2>
+					<h2>Desired interface</h2>
 					<pre>
 						<code data-trim>
 public class S {
@@ -119,7 +117,7 @@ public class S {
 					</pre>
 				</section>
 				<section>
-					<h2>Model</h2>
+					<h2>Desired model</h2>
 					<pre>
 						<code data-trim>
 public class A {
@@ -129,7 +127,7 @@ public class A {
 					</pre>
 				</section>
 				<section>
-					<h2>Entity</h2>
+					<h2>Desired entity</h2>
 					<pre>
 						<code data-trim>
 @Entity
@@ -141,6 +139,10 @@ public class B {
 					</pre>
 				</section>
 
+				<section>
+					<h2>Advanced design</h2>
+					<img src="advanced.svg" width="800" height="500">
+				</section>
 
 				<section>
 					<h2>Wouldn't it be awesome to have</h2>
@@ -148,13 +150,12 @@ public class B {
 				</section>
 
 				<section>
-					<h2>Advanced design ?</h2>
-					<img src="advanced.svg" width="800" height="500">
+					<h2>Why not possible (i.e., in Java)</h2>
+					<h3>You are forced to declare a class C and implement interface I in class C in a same compilation unit.</h3>
 				</section>
 
 				<section>
-					<h2>Why not possible (i.e., in Java)</h2>
-					<h3>You are forced to declare a class C and implement interface I in class C in a same compilation unit.</h3>
+					<h1>Part II</h1>
 				</section>
 
 				<section>
@@ -225,7 +226,7 @@ instance FromJSON BannerSetup where
 					</pre>
 				</section>
 				<section>
-					<h2>BannerSetup now is an instance of FromJSON</h2>
+					<h2>Signatures rule!</h2>
 					<pre>
 						<code>
 routes :: ScottyM ()
@@ -366,7 +367,7 @@ trait ToRow[T] {
 				</section>
 				<section>
 					<h2>Implicit magic</h2>
-					To run such code:
+					To run this code:
 					<pre>
 						<code>
 def save[T: ToRow](t: T) = {
@@ -408,7 +409,7 @@ SUM:                             4             21              0             84
 				</section>
 
 				<section>
-					<h2>Thank you!</h2>
+					<h1>The End</h1>
 				</section>
 
 				<section>

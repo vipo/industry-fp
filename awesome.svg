@@ -30,7 +30,7 @@
      inkscape:current-layer="layer1"
      inkscape:document-units="px"
      showgrid="false"
-     inkscape:window-width="798"
+     inkscape:window-width="1598"
      inkscape:window-height="850"
      inkscape:window-x="0"
      inkscape:window-y="24"
@@ -43,7 +43,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -165,11 +165,13 @@
          sodipodi:role="line"
          id="tspan3205"
          x="0.90006572"
-         y="470.13266">                       class A</tspan><tspan
+         y="470.13266">                       class A <tspan
+   style="font-style:italic;-inkscape-font-specification:Sans Italic"
+   id="tspan3089">invisibly</tspan></tspan><tspan
          sodipodi:role="line"
          x="0.90006572"
          y="520.13269"
-         id="tspan3193">    implements JsonPaseble, Saveable</tspan></text>
+         id="tspan3193">    implements JsonPasable, PGSavable</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
@@ -180,7 +182,7 @@
          sodipodi:role="line"
          id="tspan3205-4"
          x="463.02246"
-         y="206.79932">i-face Saveable</tspan></text>
+         y="206.79932">i-face PGSavable</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
@@ -191,16 +193,11 @@
          sodipodi:role="line"
          id="tspan3253"
          x="2.0686848"
-         y="230.13264">i-face JsonParseble</tspan></text>
+         y="230.13264">i-face JsonParsable</tspan></text>
     <path
        style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="M 436.20876,362.50139 C 476.20701,309.53582 522.41684,286.29331 559.5421,249.16806"
        id="path3044-7"
-       inkscape:connector-curvature="0" />
-    <path
-       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 516.20876,255.83472 c 2.34324,4.18652 43.21066,-11.91202 43.33334,-11.66666 3.28764,6.57528 -3.33334,43.25588 -3.33334,53.33333"
-       id="path3046-4"
        inkscape:connector-curvature="0" />
     <path
        style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -211,6 +208,11 @@
        style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="m 300.98614,321.65559 c -0.43539,4.92113 10.00467,36.66199 5,41.66667 -0.33929,0.33929 -10.23486,-3.33334 -11.66667,-3.33334 -11.29148,0 -32.53922,0 -38.33333,0"
        id="path3042"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 437.42504,316.77638 c -6.38615,9.6403 -5.2815,51.66666 -3.33334,51.66666 13.41678,0 34.1538,4.17954 40,-1.66666"
+       id="path3172"
        inkscape:connector-curvature="0" />
   </g>
 </svg>
