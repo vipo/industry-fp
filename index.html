@@ -42,14 +42,14 @@
 				<section>
 					<h1>FP in industry</h1>
 					<p>
-						<small>Created by Viačeslav Pozdniakov <a href="http://twitter.com/poznia">@poznia</a></small>
+						<small>Viačeslav Pozdniakov <a href="http://twitter.com/poznia">@poznia</a>, Adform, VU</small>
 					</p>
 				</section>
 
 				<section>
 					<h1>FP <strike>in</strike> <em>for</em> industry</h1>
 					<p>
-						<small>Created by Viačeslav Pozdniakov <a href="http://twitter.com/poznia">@poznia</a></small>
+						<small>Viačeslav Pozdniakov <a href="http://twitter.com/poznia">@poznia</a>, Adform, VU</small>
 					</p>
 				</section>
 
@@ -349,9 +349,38 @@ ToJSON a => ToJSON (Maybe a)
 				</section>
 				<section>
 					<h2>Scala example</h2>
+					We want
 					<pre>
 						<code>
-
+case class BannerSetup(bannerId: Int, clientDivId: Int, eshopId: Int, templateId: Int)
+						</code>
+					</pre>
+					To <i>"implement"</i>
+					<pre>
+						<code>
+trait ToRow[T] {
+  def toRows(value: T): List[AnyVal]
+}
+						</code>
+					</pre>
+				</section>
+				<section>
+					<h2>Implicit magic</h2>
+					To run such code:
+					<pre>
+						<code>
+def save[T: ToRow](t: T) = {
+  val rows = implicitly[ToRow[T]].toRows(t)
+  for (row <- rows) println(row.toString)
+}
+						</code>
+					</pre>
+					We need such a glue:
+					<pre>
+						<code>
+implicit object BannerSetupToRow extends ToRow[BannerSetup] {
+  def toRows(b: BannerSetup) = List(b.bannerId, b.clientDivId, b.eshopId, b.templateId)
+}
 						</code>
 					</pre>
 				</section>
@@ -377,6 +406,15 @@ SUM:                             4             21              0             84
 -------------------------------------------------------------------------------
 					</pre>
 				</section>
+
+				<section>
+					<h2>Thank you!</h2>
+				</section>
+
+				<section>
+					<small>We are hiring</small>
+				</section>
+
 			</div>
 
 		</div>
